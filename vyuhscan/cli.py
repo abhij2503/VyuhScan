@@ -1,11 +1,22 @@
 # cli.py — Command-line interface for VyuhScan
+import os
+import sys
+
+# Enable ANSI colour codes in Windows terminal
+if sys.platform == "win32":
+    os.system("")
 
 import argparse
 import sys
 from .scanner import run_scan, COMMON_PORTS
 from .report import print_banner, print_summary, save_json, print_json
 from .risk import score_scan, print_risk_report
+import re
 
+def validate_target(target: str) -> bool:
+    # Allow hostnames and IP addresses only
+    pattern = r'^[a-zA-Z0-9.\-]+$'
+    return bool(re.match(pattern, target))
 
 def parse_ports(port_str: str) -> list[int]:
     if port_str == "common":
@@ -67,6 +78,10 @@ def main() -> None:
         ports = parse_ports(args.ports)
     except ValueError:
         print(f"[!] Invalid port specification: {args.ports}", file=sys.stderr)
+        sys.exit(1)
+    
+    if not validate_target(args.target):
+        print(f"[!] Invalid target: '{args.target}'. Only hostnames and IP addresses are allowed.", file=sys.stderr)
         sys.exit(1)
 
     if not args.json_out:
