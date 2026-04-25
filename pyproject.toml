@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vyuhscan"
+version = "1.0.0"
+description = "Strategic network reconnaissance with built-in risk scoring"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["security", "network", "scanner", "reconnaissance", "cli", "devsecops"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+]
+
+[project.scripts]
+vyuhscan = "vyuhscan.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
